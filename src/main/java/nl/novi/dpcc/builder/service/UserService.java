@@ -41,28 +41,32 @@ public class UserService {
                     .body(new MessageResponse("Error: Email is already in use!"));
         }
 
+        if (Boolean.TRUE.equals(userRegistrationRequest.getPassword()==userRegistrationRequest.getPasswordRepeated())){
 
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Passwords provided are not the same"));
+        }
+
+
+        System.out.println(userRegistrationRequest.getPassword()==userRegistrationRequest.getPasswordRepeated());
         // TODO Student: Bonus: Check if wachtwoorden gelijk zijn. Geef anders een error.
         // TODO Student: Hier moet het userRegistrationRequest object omgebouwd worden naar een User-object!
         // TODO Student: Huidige code laat een leeg user object op in de database.
 
-
-                try {
-                    User newUser = new User();
-                    newUser.setUsername(userRegistrationRequest.getUsername());
-                    newUser.setEmail(userRegistrationRequest.getEmail());
-                    newUser.setPassword(userRegistrationRequest.getPassword());
-                    newUser.setFirstName(userRegistrationRequest.getFirstName());
-                    newUser.setLastName(userRegistrationRequest.getLastName());
-                    userRepository.save(newUser);
-                } catch (Exception e){
-                    throw new RuntimeException();
-                }
-
+        try {
+            User newUser = new User();
+            newUser.setUsername(userRegistrationRequest.getUsername());
+            newUser.setEmail(userRegistrationRequest.getEmail());
+            newUser.setPassword(userRegistrationRequest.getPassword());
+            newUser.setFirstName(userRegistrationRequest.getFirstName());
+            newUser.setLastName(userRegistrationRequest.getLastName());
+            userRepository.save(newUser);
+        } catch (Exception e){
+            throw new RuntimeException();
+        }
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-
-
 
     public List<User> findAllUsers() {
         return userRepository.findAll();
