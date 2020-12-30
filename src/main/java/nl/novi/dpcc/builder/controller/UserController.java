@@ -5,6 +5,7 @@ import nl.novi.dpcc.builder.payload.request.UserRegistrationRequest;
 import nl.novi.dpcc.builder.payload.response.MessageResponse;
 import nl.novi.dpcc.builder.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +33,12 @@ public class UserController {
         return userService.registerUser(userRegistrationRequest);
     }
 
+
+
     @GetMapping("/all")
-    public List<User> findAllUsers() {
-        return userService.findAllUsers();
+    public ResponseEntity<Object> findAllUsers() {
+        List<User> users = userService.findAllUsers();
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 }
